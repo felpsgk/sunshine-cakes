@@ -101,9 +101,7 @@ include '../backend/produtos/busca_produtos.php';
     <script>
         document.getElementById("produtoForm").addEventListener("submit", function (event) {
             event.preventDefault(); // Impede o recarregamento da página
-
             let formData = new FormData(this); // Coleta os dados do formulário
-
             fetch("../backend/produtos/insere_produtos.php", {
                 method: "POST",
                 body: formData
@@ -114,29 +112,23 @@ include '../backend/produtos/busca_produtos.php';
                     alerta.classList.remove("d-none", "alert-success", "alert-danger"); // Remove classes anteriores
                     alerta.classList.add(data.success ? "alert-success" : "alert-danger"); // Define sucesso ou erro
                     alerta.innerHTML = data.message; // Exibe a mensagem
-                    if (data.success) {
-                        alerta.innerHTML = "ATUALIZANDO TABELA"; // Exibe a mensagem
-                        // Atualiza a tabela com o novo produto sem recarregar a página
-                        let tabelaBody = document.querySelector("#produtosTable tbody");
-                        let novaLinha = document.createElement("tr");
-                        novaLinha.innerHTML = `
-                            <td>${data.produto.id}</td>
-                            <td>${data.produto.nome}</td>
-                            <td>R$ ${parseFloat(data.produto.preco).toFixed(2).replace('.', ',')}</td>
-                            <td>${data.produto.peso}</td>
-                        `;
-                        tabelaBody.appendChild(novaLinha);
 
-                        // Atualiza o DataTable
+                    if (data.success) {
+                        // Atualiza o DataTable com o novo produto
                         let dataTable = $('#produtosTable').DataTable();
 
-                        // Reinicia o DataTable para que ele reconheça a nova linha
-                        dataTable.clear().draw();
-                        dataTable.rows.add($(tabelaBody).find('tr')).draw();
+                        // Adiciona a nova linha ao DataTable
+                        dataTable.row.add([
+                            data.produto.id,
+                            data.produto.nome,
+                            `R$ ${parseFloat(data.produto.preco).toFixed(2).replace('.', ',')}`,
+                            data.produto.peso
+                        ]).draw(); // Atualiza a tabela para mostrar a nova linha
                     }
                 })
                 .catch(error => console.error("Erro:", error));
         });
+
     </script>
 
     <!-- jQuery e DataTables JS -->
