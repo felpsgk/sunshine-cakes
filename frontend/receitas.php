@@ -276,14 +276,6 @@ include './include/head.php'; // Inclui o arquivo head.php
 
                     // Abrir modal de edição
                     $(".editar-btn").click(function () {
-                        $("#edit-id").val($(this).data("id"));
-                        $("#edit-nome").val($(this).data("nome"));
-                        $("#edit-rendimento").val($(this).data("rendimento"));
-                        $("#editarModal").modal("show");
-                    });
-
-                    // Abrir modal de edição
-                    $(".editar-btn").click(function () {
                         let receitaId = $(this).data("id");
                         $("#edit-id").val(receitaId);
 
