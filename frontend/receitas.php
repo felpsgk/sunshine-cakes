@@ -7,9 +7,10 @@ if (!isset($_SESSION['usuario_id'])) {
 include '../backend/db/start_db_conn.php';
 
 // Buscar produtos para o dropdown (considera que a tabela "produtos" tem colunas: id, nome, preco, peso)
-$stmt = $pdo->prepare("SELECT id, nome, preco, peso FROM produtos ORDER BY nome");
+$stmt = $pdo->prepare("SELECT id, CONCAT(NOME,' - ', peso,'gr/ml/unidade') AS nome, preco FROM produtos ORDER BY nome");
 $stmt->execute();
 $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$pdo = null;
 include './include/head.php'; // Inclui o arquivo head.php 
 ?>
 

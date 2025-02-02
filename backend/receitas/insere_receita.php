@@ -33,14 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->execute([$nome_receita]);
             $receita_id = $pdo->lastInsertId();
 
-            // 2. Insere os produtos utilizados na tabela "receita_produtos"
-            $stmt_produto = $pdo->prepare("INSERT INTO receita_produtos (receita_id, produto_id, quantidade_utilizada) VALUES (?, ?, ?)");
+            // 2. Insere os produtos utilizados na tabela "receita_ingredientes"
+            $stmt_produto = $pdo->prepare("INSERT INTO receita_ingredientes (receita_id, produto_id, quantidade) VALUES (?, ?, ?)");
             $numProdutos = count($produtos);
             for ($i = 0; $i < $numProdutos; $i++) {
                 // Converte a quantidade para float, se necessário
-                $quantidade_utilizada = floatval($quantidades[$i]);
+                $quantidade = floatval($quantidades[$i]);
                 $produto_id = $produtos[$i];
-                $stmt_produto->execute([$receita_id, $produto_id, $quantidade_utilizada]);
+                $stmt_produto->execute([$receita_id, $produto_id, $quantidade]);
             }
 
             // 3. Insere os percentuais e informações de custo/lucro na tabela "receita_lucro"
