@@ -1,11 +1,11 @@
 <?php
-include '../backend/produtos/busca_produtos.php';
 session_start();
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
     exit();
 }
 include '../backend/db/start_db_conn.php';
+include '../backend/produtos/busca_produtos.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -77,20 +77,17 @@ include '../backend/db/start_db_conn.php';
             </thead>
             <tbody>
                 <?php
-                if ($produtos === false) {
-                    echo "<tr><td colspan='4'>Erro ao buscar produtos.</td></tr>";
-                } elseif (empty($produtos)) {
-                    echo "<tr><td colspan='4'>Nenhum produto encontrado.</td></tr>";
-                } else {
-                    foreach ($produtos as $produto): ?>
-                        <tr>
-                            <td><?= $produto['id']; ?></td>
-                            <td><?= $produto['nome']; ?></td>
-                            <td>R$ <?= number_format($produto['preco'], 2, ',', '.'); ?></td>
-                            <td><?= $produto['quantidade']; ?></td>
-                        </tr>
-                    <?php endforeach;
-                } ?>
+                $produtos = buscarProdutos();
+                var_dump($produtos); // Verifica se a consulta está trazendo dados
+                
+                foreach ($produtos as $produto): ?>
+                    <tr>
+                        <td><?= $produto['id']; ?></td>
+                        <td><?= $produto['nome']; ?></td>
+                        <td>R$ <?= number_format($produto['preco'], 2, ',', '.'); ?></td>
+                        <td><?= $produto['quantidade']; ?></td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
 
