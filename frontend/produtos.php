@@ -77,8 +77,10 @@ include '../backend/db/start_db_conn.php';
             </thead>
             <tbody>
                 <?php
+                print_r("metodoss");
+                print_r(buscarProdutos());
+                print_r(" nmao metodoss");
                 $produtos = buscarProdutos();
-                echo "TESTE1";
                 print_r($produtos);
                 foreach ($produtos as $produto): ?>
                     <tr>
