@@ -1,4 +1,5 @@
 <?php
+include '../db/start_db_conn.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nome_produto'], $_POST['preco'], $_POST['quantidade'])) {
     $nome = $_POST['nome_produto'];
     $preco = $_POST['preco'];
@@ -11,5 +12,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nome_produto'], $_POST
         echo "<script>alert('Erro ao cadastrar o produto.');</script>";
     }
 }
-
 ?>
