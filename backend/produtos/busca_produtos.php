@@ -1,6 +1,5 @@
 <?php
 include '../db/start_db_conn.php';
-buscarProdutos();
 function buscarProdutos()
 {
     global $pdo;
@@ -15,4 +14,5 @@ function buscarProdutos()
 
     return json_encode($produtos);
 }
+echo buscarProdutos();
 ?>
