@@ -11,9 +11,6 @@ function buscarProdutos()
         echo "Erro na consulta ou tabela vazia.";
     }
 
-    return $produtos;
+    return json_encode($produtos);
 }
-
-header('Content-Type: application/json');
-echo json_encode(buscarProdutos());
 ?>
