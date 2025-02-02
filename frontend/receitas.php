@@ -10,6 +10,10 @@ include '../backend/db/start_db_conn.php';
 $stmt = $pdo->prepare("SELECT id, CONCAT(NOME,' - ', peso,'gr/ml/unidade') AS nome, preco FROM produtos ORDER BY nome");
 $stmt->execute();
 $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Buscar receitas
+$stmt = $pdo->prepare("SELECT id, nome, custo_total, lucro, custo_receita, valor_venda, rendimento FROM receitas ORDER BY id DESC");
+$stmt->execute();
+$receitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $pdo = null;
 include './include/head.php'; // Inclui o arquivo head.php 
 ?>
