@@ -62,7 +62,7 @@ include '../backend/produtos/busca_produtos.php';
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Preço (R$)</label>
-                    <input type="number" step="0.10" class="form-control" name="preco" required>
+                    <input type="number" step="0.01" class="form-control" name="preco" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Peso (gr) / Quantidade</label>
@@ -96,11 +96,8 @@ include '../backend/produtos/busca_produtos.php';
                 <?php endforeach; ?>
             </tbody>
         </table>
-
         <a href="dashboard.php" class="btn btn-secondary">Voltar para o Dashboard</a>
     </div>
-
-
     <script>
         document.getElementById("produtoForm").addEventListener("submit", function (event) {
             event.preventDefault(); // Impede o recarregamento da página
@@ -118,6 +115,7 @@ include '../backend/produtos/busca_produtos.php';
                     alerta.classList.add(data.success ? "alert-success" : "alert-danger"); // Define sucesso ou erro
                     alerta.innerHTML = data.message; // Exibe a mensagem
                     if (data.success) {
+                        // Atualiza a tabela com o novo produto sem recarregar a página
                         let tabelaBody = document.querySelector("#produtosTable tbody");
                         let novaLinha = document.createElement("tr");
                         novaLinha.innerHTML = `
@@ -127,8 +125,13 @@ include '../backend/produtos/busca_produtos.php';
                             <td>${data.produto.peso}</td>
                         `;
                         tabelaBody.appendChild(novaLinha);
-                        $('#produtosTable').DataTable().row.add(novaLinha).draw();
 
+                        // Atualiza o DataTable
+                        let dataTable = $('#produtosTable').DataTable();
+
+                        // Reinicia o DataTable para que ele reconheça a nova linha
+                        dataTable.clear().draw();
+                        dataTable.rows.add($(tabelaBody).find('tr')).draw();
                     }
                 })
                 .catch(error => console.error("Erro:", error));
