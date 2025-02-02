@@ -192,10 +192,29 @@ include './include/head.php'; // Inclui o arquivo head.php
             <!-- Bootstrap JS -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-            <!-- jQuery (para facilitar manipulação DOM e AJAX) -->
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script>
                 $(document).ready(function () {
+                    $('#receitasTable').DataTable({
+                        "pageLength": 20,
+                        "lengthMenu": [20, 30, 50, 100],
+                        "language": {
+                            "lengthMenu": "Mostrar _MENU_ registros por página",
+                            "zeroRecords": "Nenhuma receita encontrada",
+                            "info": "Mostrando página _PAGE_ de _PAGES_",
+                            "infoEmpty": "Nenhuma receita disponível",
+                            "infoFiltered": "(filtrado de _MAX_ registros totais)",
+                            "search": "Buscar:",
+                            "paginate": {
+                                "first": "Primeiro",
+                                "last": "Último",
+                                "next": "Próximo",
+                                "previous": "Anterior"
+                            }
+                        },// Define que a última coluna não é ordenável (os botões de ação)
+                        "columnDefs": [
+                            { "orderable": false, "targets": -1 }
+                        ]
+                    });
                     // Exibe/esconde campo de taxa iFood conforme checkbox
                     $('#ifoodCheck').on('change', function () {
                         if ($(this).is(':checked')) {
@@ -213,9 +232,9 @@ include './include/head.php'; // Inclui o arquivo head.php
                                             <select name="produtos[]" class="form-select" required>
                                                 <option value="">Selecione um produto</option>
                                                 <?php foreach ($produtos as $produto): ?>
-                                                                                                <option value="<?= $produto['id'] ?>" data-preco="<?= $produto['preco'] ?>" data-peso="<?= $produto['peso'] ?>">
-                                                                                                    <?= $produto['nome'] ?>
-                                                                                                </option>
+                                                                                                                <option value="<?= $produto['id'] ?>" data-preco="<?= $produto['preco'] ?>" data-peso="<?= $produto['peso'] ?>">
+                                                                                                                    <?= $produto['nome'] ?>
+                                                                                                                </option>
                                                 <?php endforeach; ?>
                                             </select>
                                             </td>
@@ -262,22 +281,6 @@ include './include/head.php'; // Inclui o arquivo head.php
                                 alert('Erro na requisição.');
                             }
                         });
-                    });
-                    $('#receitasTable').DataTable({
-                        "language": {
-                            "lengthMenu": "Mostrar _MENU_ registros por página",
-                            "zeroRecords": "Nenhuma receita encontrada",
-                            "info": "Mostrando página _PAGE_ de _PAGES_",
-                            "infoEmpty": "Nenhuma receita disponível",
-                            "infoFiltered": "(filtrado de _MAX_ registros totais)",
-                            "search": "Buscar:",
-                            "paginate": {
-                                "first": "Primeiro",
-                                "last": "Último",
-                                "next": "Próximo",
-                                "previous": "Anterior"
-                            }
-                        }
                     });
 
                     // Abrir modal de edição
