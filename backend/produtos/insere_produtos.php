@@ -21,4 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nome_produto'], $_POST
 }
 $stmt->close();
 $pdo = null;
+
+header('Location: ../../frontend/produtos.php');
 ?>

@@ -70,7 +70,6 @@ include '../backend/produtos/busca_produtos.php';
                 </div>
                 <button type="submit" class="btn btn-custom">Cadastrar</button>
             </form>
-            <button type="button" id="atualizarTabela" class="btn btn-secondary ms-2">Atualizar Tabela</button>
         </div>
 
         <!-- Lista de produtos cadastrados com DataTable -->
@@ -100,29 +99,6 @@ include '../backend/produtos/busca_produtos.php';
         <a href="dashboard.php" class="btn btn-secondary">Voltar para o Dashboard</a>
     </div>
     <script>
-        document.getElementById("atualizarTabela").addEventListener("click", function () {
-            fetch("../backend/produtos/busca_produtos.php")
-                .then(response => response.json())
-                .then(produtos => {
-                    let tabelaBody = document.querySelector("#produtosTable tbody");
-                    tabelaBody.innerHTML = ""; // Limpa a tabela antes de atualizar
-
-                    produtos.forEach(produto => {
-                        let novaLinha = `
-                    <tr>
-                        <td>${produto.id}</td>
-                        <td>${produto.nome}</td>
-                        <td>R$ ${parseFloat(produto.preco).toFixed(2).replace('.', ',')}</td>
-                        <td>${produto.peso}</td>
-                    </tr>
-                `;
-                        tabelaBody.innerHTML += novaLinha;
-                    });
-                })
-                .catch(error => console.error("Erro ao atualizar tabela:", error));
-        });
-    </script>
-    <script>
         document.getElementById("produtoForm").addEventListener("submit", function (event) {
             event.preventDefault(); // Impede o recarregamento da página
             let formData = new FormData(this); // Coleta os dados do formulário
@@ -136,6 +112,7 @@ include '../backend/produtos/busca_produtos.php';
                     alerta.classList.remove("d-none", "alert-success", "alert-danger"); // Remove classes anteriores
                     alerta.classList.add(data.success ? "alert-success" : "alert-danger"); // Define sucesso ou erro
                     alerta.innerHTML = data.message; // Exibe a mensagem
+
                 })
                 .catch(error => console.error("Erro:", error));
         });
