@@ -77,7 +77,6 @@ include '../backend/db/start_db_conn.php';
             </thead>
             <tbody>
                 <?php
-                $produtos = buscarProdutos();
                 if ($produtos === false) {
                     echo "<tr><td colspan='4'>Erro ao buscar produtos.</td></tr>";
                 } elseif (empty($produtos)) {
