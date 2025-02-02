@@ -1,4 +1,5 @@
 <?php
+buscarProdutos();
 function buscarProdutos()
 {
     include '../db/start_db_conn.php';
