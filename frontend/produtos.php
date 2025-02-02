@@ -54,6 +54,7 @@ include './include/head.php'; // Inclui o arquivo head.php
             <tbody>
                 <?php
                 $produtos = buscarProdutos();
+                print_r($produtos);
                 foreach ($produtos as $produto): ?>
                     <tr>
                         <td><?= $produto['id']; ?></td>
