@@ -2,7 +2,7 @@
 session_start();
 $host = 'localhost';
 $db = 'felpst09_sunshine_cakes';
-$user = 'sunshinecakes';
+$user = 'felpst09_sunshinecakes';
 $pass = '976431852Gk@';
 
 try {
