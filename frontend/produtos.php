@@ -124,12 +124,34 @@ include './include/head.php'; // Inclui o arquivo head.php
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Inicialização do DataTable -->
     <script>
+        // Função para preencher a tabela com produtos
+        function preencherTabelaProdutos() {
+            fetch("../backend/produtos/busca_produtos.php")
+                .then(response => response.json()) // Espera um JSON como resposta
+                .then(data => {
+                    let tabela = $('#produtosTable').DataTable();
+                    tabela.clear(); // Limpa os dados existentes na tabela
+
+                    // Itera sobre os dados e adiciona à tabela
+                    data.forEach(produto => {
+                        tabela.row.add([
+                            produto.id,
+                            produto.nome,
+                            `R$ ${parseFloat(produto.preco).toFixed(2).replace('.', ',')}`,
+                            produto.peso
+                        ]);
+                    });
+
+                    tabela.draw(); // Atualiza a tabela com os novos dados
+                })
+                .catch(error => console.error("Erro ao carregar os produtos:", error));
+        }
+
+        // Inicializa a tabela ao carregar a página
         $(document).ready(function () {
             // Inicializa o DataTable
-            var tabela = $('#produtosTable').DataTable({
+            $('#produtosTable').DataTable({
                 "pageLength": 20,
                 "lengthMenu": [20, 30, 50, 100],
                 "language": {
@@ -147,6 +169,9 @@ include './include/head.php'; // Inclui o arquivo head.php
                     }
                 }
             });
+
+            // Preenche a tabela com os produtos ao carregar a página
+            preencherTabelaProdutos();
         });
     </script>
 
