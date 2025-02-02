@@ -1,7 +1,5 @@
-<!-- processa_login.php -->
 <?php
 include './db/start_db_conn.php';
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $senha = $_POST['senha'];
