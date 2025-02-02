@@ -8,8 +8,10 @@ function buscarProdutos()
     $stmt->execute();
     $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (!$produtos) {
-        echo "Erro na consulta ou tabela vazia.";
+        echo json_encode(["erro" => "Erro na consulta ou tabela vazia."]);
+        exit();
     }
-    return $produtos;
+
+    echo json_encode($produtos);
 }
 ?>

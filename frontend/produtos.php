@@ -89,12 +89,32 @@ include './include/head.php'; // Inclui o arquivo head.php
                     // Se o cadastro for bem-sucedido, atualiza a tabela
                     if (data.success) {
                         // Limpa o formulário
-                        document.getElementById("produtoForm").reset();
+                        document.getElementById("produ  toForm").reset();
                         // Atualiza a tabela de produtos
                         atualizarTabelaProdutos();
                     }
                 })
                 .catch(error => console.error("Erro:", error));
+            // Função para atualizar a tabela com produtos
+            function atualizarTabelaProdutos() {
+                fetch("../backend/produtos/busca_produtos.php")
+                    .then(response => response.json())
+                    .then(data => {
+                        tabela.clear(); // Limpa os dados existentes na tabela
+
+                        data.forEach(produto => {
+                            tabela.row.add([
+                                produto.id,
+                                produto.nome,
+                                `R$ ${parseFloat(produto.preco).toFixed(2).replace('.', ',')}`,
+                                produto.peso
+                            ]);
+                        });
+
+                        tabela.draw(); // Atualiza a tabela com os novos dados
+                    })
+                    .catch(error => console.error("Erro ao atualizar a tabela:", error));
+            }
         });
     </script>
 
@@ -127,30 +147,6 @@ include './include/head.php'; // Inclui o arquivo head.php
                     }
                 }
             });
-
-            // Função para atualizar a tabela com produtos
-            function atualizarTabelaProdutos() {
-                fetch("../backend/produtos/busca_produtos.php")
-                    .then(response => response.json())
-                    .then(data => {
-                        tabela.clear(); // Limpa os dados existentes na tabela
-
-                        data.forEach(produto => {
-                            tabela.row.add([
-                                produto.id,
-                                produto.nome,
-                                `R$ ${parseFloat(produto.preco).toFixed(2).replace('.', ',')}`,
-                                produto.peso
-                            ]);
-                        });
-
-                        tabela.draw(); // Atualiza a tabela com os novos dados
-                    })
-                    .catch(error => console.error("Erro ao atualizar a tabela:", error));
-            }
-
-            // Atualiza a tabela quando a página for carregada
-            atualizarTabelaProdutos();
         });
     </script>
 
