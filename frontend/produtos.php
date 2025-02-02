@@ -53,7 +53,9 @@ include '../backend/produtos/busca_produtos.php';
         <!-- Formulário para cadastrar um novo produto -->
         <div class="card p-3 mb-4">
             <h4>Cadastrar Novo Produto</h4>
-            <form method="POST" action="../backend/produtos/insere_produtos.php">
+            <!-- ALERTA DE RESPOSTA (inicialmente oculto) -->
+            <div id="alerta" class="alert d-none"></div>
+            <form id="produtoForm">
                 <div class="mb-3">
                     <label class="form-label">Nome do Produto</label>
                     <input type="text" class="form-control" name="nome_produto" required>
@@ -63,7 +65,7 @@ include '../backend/produtos/busca_produtos.php';
                     <input type="number" step="0.10" class="form-control" name="preco" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">peso(gr)/quantidade</label>
+                    <label class="form-label">Peso (gr) / Quantidade</label>
                     <input type="number" class="form-control" name="peso" required>
                 </div>
                 <button type="submit" class="btn btn-custom">Cadastrar</button>
@@ -97,6 +99,28 @@ include '../backend/produtos/busca_produtos.php';
 
         <a href="dashboard.php" class="btn btn-secondary">Voltar para o Dashboard</a>
     </div>
+
+
+    <script>
+        document.getElementById("produtoForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Impede o recarregamento da página
+
+            let formData = new FormData(this); // Coleta os dados do formulário
+
+            fetch("../backend/produtos/insere_produtos.php", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    let alerta = document.getElementById("alerta");
+                    alerta.classList.remove("d-none", "alert-success", "alert-danger"); // Remove classes anteriores
+                    alerta.classList.add(data.success ? "alert-success" : "alert-danger"); // Define sucesso ou erro
+                    alerta.innerHTML = data.message; // Exibe a mensagem
+                })
+                .catch(error => console.error("Erro:", error));
+        });
+    </script>
 
     <!-- jQuery e DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
