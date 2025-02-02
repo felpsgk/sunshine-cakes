@@ -18,8 +18,11 @@ include './include/head.php'; // Inclui o arquivo head.php
         <!-- Formulário para cadastrar um novo produto -->
         <div class="card p-3 mb-4">
             <h4>Cadastrar Novo Produto</h4>
-            <!-- ALERTA DE RESPOSTA (inicialmente oculto) -->
-            <div id="alerta" class="alert d-none"></div>
+            <!-- ALERTA DE RESPOSTA -->
+            <div id="alerta" class="alert d-none alert-dismissible fade show" role="alert">
+                <span id="alertaMensagem"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+            </div>
             <form id="produtoForm">
                 <div class="mb-3">
                     <label class="form-label">Nome do Produto</label>
@@ -76,20 +79,52 @@ include './include/head.php'; // Inclui o arquivo head.php
                     let alerta = document.getElementById("alerta");
                     alerta.classList.remove("d-none", "alert-success", "alert-danger"); // Remove classes anteriores
                     alerta.classList.add(data.success ? "alert-success" : "alert-danger"); // Define sucesso ou erro
-                    alerta.innerHTML = data.message; // Exibe a mensagem
+                    document.getElementById("alertaMensagem").innerHTML = data.message; // Exibe a mensagem
+
+                    // Faz o alerta desaparecer após 5 segundos
+                    setTimeout(() => {
+                        alerta.classList.add("d-none");
+                    }, 5000);
+
+                    // Se o cadastro for bem-sucedido, atualiza a tabela
                     if (data.success) {
-                        header('Location: produtos.php');
+                        // Limpa o formulário
+                        document.getElementById("produtoForm").reset();
+                        // Atualiza a tabela de produtos
+                        atualizarTabelaProdutos();
                     }
                 })
                 .catch(error => console.error("Erro:", error));
         });
 
+        function atualizarTabelaProdutos() {
+            fetch("../backend/produtos/busca_produtos.php")
+                .then(response => response.json())
+                .then(data => {
+                    let tabela = $('#produtosTable').DataTable();
+                    tabela.clear(); // Limpa os dados existentes na tabela
+
+                    data.forEach(produto => {
+                        tabela.row.add([
+                            produto.id,
+                            produto.nome,
+                            `R$ ${parseFloat(produto.preco).toFixed(2).replace('.', ',')}`,
+                            produto.peso
+                        ]);
+                    });
+
+                    tabela.draw(); // Atualiza a tabela com os novos dados
+                })
+                .catch(error => console.error("Erro ao atualizar a tabela:", error));
+        }
     </script>
 
     <!-- jQuery e DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Inicialização do DataTable -->
     <script>
