@@ -59,7 +59,7 @@ function cadastrarUsuario($pdo, $nome, $email, $senha) {
 
 // Função para autenticar usuário
 function autenticarUsuario($pdo, $email, $senha) {
-    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = md5(?)");
+    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ? AND senha = md5(?)");
     $stmt->execute([$email]);
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
     
