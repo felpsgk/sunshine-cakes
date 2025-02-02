@@ -10,7 +10,7 @@ include './include/head.php'; // Inclui o arquivo head.php
 ?>
 <body>
     <!-- Navbar -->
-    <?php include 'navbar.php'; // Inclui a navbar.php ?>
+    <?php include './include/navbar.php'; // Inclui a navbar.php ?>
     <div class="container">
         <h2 class="text-center">Gerenciar Produtos</h2>
 

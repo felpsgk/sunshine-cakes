@@ -8,7 +8,7 @@ include './include/head.php'; // Inclui o arquivo head.php ?>
 
 <body>
     <!-- Navbar -->
-    <?php include 'navbar.php'; // Inclui a navbar.php ?>
+    <?php include './include/navbar.php'; // Inclui a navbar.php ?>
     <!-- Dashboard Content -->
     <div class="container container-dashboard">
         <h2 class="text-center">Bem-vindo, <?php echo $_SESSION['usuario_nome']; ?>!</h2>
