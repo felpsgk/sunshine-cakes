@@ -62,8 +62,9 @@ function autenticarUsuario($pdo, $email, $senha) {
     echo "teste";
     echo "<br>";
     $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ? AND senha = md5(?)");
-    $stmt->execute([$email]);
-    echo $stmt;
+    $stmt->execute([$email, $senha]);
+    echo "teste";
+    print_r($stmt);
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($usuario) {
         $_SESSION['usuario_id'] = $usuario['id'];
