@@ -66,6 +66,10 @@ include './include/head.php'; // Inclui o arquivo head.php
                 <!-- Percentuais para cálculo de custos e lucro -->
                 <h5>Custos e Lucro</h5>
                 <div class="mb-3">
+                    <label class="form-label">Rendimento desta receita</label>
+                    <input type="number" step="1" name="rendimento" class="form-control" required>
+                </div>
+                <div class="mb-3">
                     <label class="form-label">Gastos Incalculáveis (%)</label>
                     <input type="number" step="0.01" name="gastos_incalculaveis" class="form-control" required>
                 </div>
