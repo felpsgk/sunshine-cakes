@@ -63,8 +63,36 @@ include './include/head.php'; // Inclui o arquivo head.php
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Função para atualizar a tabela com produtos -->
     <script>
-         $(document).ready(function () {
+        function atualizarTabelaProdutos() {
+            fetch("../backend/produtos/busca_produtos.php")
+                .then(response => response.json())
+                .then(data => {
+                    // Obtém a instância do DataTable
+                    let tabela = $('#produtosTable').DataTable();
+                    tabela.clear(); // Limpa os dados existentes na tabela
+
+                    // Itera sobre os dados e adiciona cada produto na tabela
+                    data.forEach(produto => {
+                        tabela.row.add([
+                            produto.id,
+                            produto.nome,
+                            `R$ ${parseFloat(produto.preco).toFixed(2).replace('.', ',')}`,
+                            produto.peso
+                        ]);
+                    });
+
+                    tabela.draw(); // Redesenha a tabela com os novos dados
+                })
+                .catch(error => console.error("Erro ao atualizar a tabela:", error));
+        }
+    </script>
+
+    <!-- Script para inicialização do DataTable e eventos -->
+    <script>
+        $(document).ready(function () {
             // Inicializa o DataTable
             $('#produtosTable').DataTable({
                 "pageLength": 20,
