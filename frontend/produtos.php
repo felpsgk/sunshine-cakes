@@ -48,6 +48,7 @@ include './include/head.php'; // Inclui o arquivo head.php
                     <th>Nome</th>
                     <th>Preço (R$)</th>
                     <th>peso(gr)/quantidade</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
