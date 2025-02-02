@@ -87,16 +87,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
              *    - total_fees_percent: soma de gastos_incalculaveis, utens_perdas, mao_obra e taxa_ifood (em %)
              *    - custo_total: custo_receita + acréscimo das taxas sobre custo_receita
              *    - valor_venda: custo_total dividido pelo rendimento (custo por unidade)
-             *    - lucro: custo_receita acrescido da margem de lucro (em %)
+             *    - lucro: custo_total - custo_receita
              */
             $custo_incalculaveis = $custo_receita * ($gastos_incalculaveis / 100);
             $custo_utens_perdas = $custo_receita * ($utens_perdas / 100);
             $custo_mao_obra = $custo_receita * ($mao_obra / 100);
+            $custo_margem_lucro = $custo_receita * ($margem_lucro / 100);
             if (isset($_POST['taxa_ifood']) && !empty($_POST['taxa_ifood'])) {
-                $custo_ifood = $custo_receita * ($taxa_ifood / 100);                
-                $custo_total = $custo_receita + $custo_incalculaveis + $custo_utens_perdas + $custo_mao_obra + $custo_ifood;
+                $custo_ifood = $custo_receita * ($taxa_ifood / 100);
+                $custo_total = $custo_receita + $custo_incalculaveis + $custo_utens_perdas + $custo_mao_obra + $custo_margem_lucro + $custo_ifood;
             } else {
-                $custo_total = $custo_receita + $custo_incalculaveis + $custo_utens_perdas + $custo_mao_obra;
+                $custo_total = $custo_receita + $custo_incalculaveis + $custo_utens_perdas + $custo_mao_obra + $custo_margem_lucro;
             }
 
 
@@ -105,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 throw new Exception("O rendimento deve ser maior que zero.");
             }
             $valor_venda = $custo_total / $rendimento;
-            $lucro = $custo_receita + ($custo_receita * ($margem_lucro / 100));
+            $lucro = $custo_total - $custo_receita;
 
             /*
              * 4. Atualiza o registro da receita na tabela "receitas" com os valores calculados
