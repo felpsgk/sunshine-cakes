@@ -126,7 +126,9 @@ include '../backend/produtos/busca_produtos.php';
                             <td>R$ ${parseFloat(data.produto.preco).toFixed(2).replace('.', ',')}</td>
                             <td>${data.produto.peso}</td>
                         `;
-                        tabelaBody.appendChild(novaLinha); // Limpa o formulário
+                        tabelaBody.appendChild(novaLinha);
+                        $('#produtosTable').DataTable().row.add(novaLinha).draw();
+
                     }
                 })
                 .catch(error => console.error("Erro:", error));
