@@ -105,11 +105,16 @@ include './include/head.php'; // Inclui o arquivo head.php
 
                     // Itera sobre os dados e adiciona cada produto na tabela
                     data.forEach(produto => {
+                        // Cria os botões de ação com eventos embutidos
+                        let btnEditar = `<button class="btn btn-sm btn-primary" onclick='openEditModal(${JSON.stringify(produto)})'>Editar</button>`;
+                        let btnExcluir = `<button class="btn btn-sm btn-danger" onclick="excluirProduto(${produto.id})">Excluir</button>`;
+                        let acoes = btnEditar + " " + btnExcluir;
                         tabela.row.add([
                             produto.id,
                             produto.nome,
                             `R$ ${parseFloat(produto.preco).toFixed(2).replace('.', ',')}`,
-                            produto.peso
+                            produto.peso,
+                            acoes
                         ]);
                     });
 
