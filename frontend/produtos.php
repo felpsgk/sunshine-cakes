@@ -1,4 +1,5 @@
 <?php
+include '../backend/produtos/busca_produtos.php';
 session_start();
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
@@ -76,7 +77,6 @@ include '../backend/db/start_db_conn.php';
             </thead>
             <?php
             echo "TESTE";
-            include '../backend/produtos/busca_produtos.php';
             ?>
             <tbody>
                 <?php
