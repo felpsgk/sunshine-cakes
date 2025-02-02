@@ -128,6 +128,7 @@ include '../backend/produtos/busca_produtos.php';
     <script>
         $(document).ready(function () {
             $('#produtosTable').DataTable({
+                "pageLength": 20,
                 "language": {
                     "lengthMenu": "Mostrar _MENU_ registros por página",
                     "zeroRecords": "Nenhum produto encontrado",
