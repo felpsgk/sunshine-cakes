@@ -7,10 +7,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $senha = $_POST['senha'];
 
     if (autenticarUsuario($pdo, $email, $senha)) {
-        header("Location: dashboard.php"); // Redireciona para dashboard
+        header("Location: ../frontend/dashboard.php"); // Redireciona para dashboard
         exit();
     } else {
-        echo "<script>alert('Email ou senha incorretos!'); window.location.href='../frontend/processa_login.php';</script>";
+        echo "<script>alert('Email ou senha incorretos!'); window.location.href='../frontend/login.php';</script>";
     }
 }
 ?>
