@@ -75,12 +75,14 @@ include '../backend/db/start_db_conn.php';
                 </tr>
             </thead>
             <?php
+            echo "TESTE";
             include '../backend/produtos/busca_produtos.php';
             ?>
             <tbody>
                 <?php
+                echo "TESTE1";
                 $produtos = buscarProdutos();
-                print_r($produtos);                
+                print_r($produtos);
                 foreach ($produtos as $produto): ?>
                     <tr>
                         <td><?= $produto['id']; ?></td>
