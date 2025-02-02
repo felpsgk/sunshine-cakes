@@ -115,7 +115,11 @@ include '../backend/produtos/busca_produtos.php';
 
                     if (data.success) {
                         // Atualiza o DataTable com o novo produto
+                        alerta.innerHTML = "sucesso1"; // Exibe a mensagem
+                        
                         let dataTable = $('#produtosTable').DataTable();
+
+                        alerta.innerHTML = dataTable; // Exibe a mensagem
 
                         // Adiciona a nova linha ao DataTable
                         dataTable.row.add([
