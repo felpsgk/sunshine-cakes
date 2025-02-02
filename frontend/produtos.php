@@ -77,6 +77,9 @@ include '../backend/produtos/busca_produtos.php';
             </thead>
             <tbody>
                 <?php
+                $produtos = buscarProdutos();
+                var_dump($produtos); // Verifica se a consulta está trazendo dados
+                
                 foreach ($produtos as $produto): ?>
                     <tr>
                         <td><?= $produto['id']; ?></td>
