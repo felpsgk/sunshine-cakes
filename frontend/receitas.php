@@ -199,6 +199,30 @@ include './include/head.php'; // Inclui o arquivo head.php
                             $('[name="taxa_ifood"]').val('');
                         }
                     });
+
+                    // Adicionar nova linha na tabela de produtos
+                    $('#adicionarProduto').click(function () {
+                        let novaLinha = `<tr>
+                                            <td>
+                                            <select name="produtos[]" class="form-select" required>
+                                                <option value="">Selecione um produto</option>
+                                                <?php foreach ($produtos as $produto): ?>
+                                                                                            <option value="<?= $produto['id'] ?>" data-preco="<?= $produto['preco'] ?>" data-peso="<?= $produto['peso'] ?>">
+                                                                                                <?= $produto['nome'] ?>
+                                                                                            </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            </td>
+                                            <td>
+                                            <input type="number" step="0.01" name="quantidades[]" class="form-control" placeholder="Quantidade utilizada" required>
+                                            </td>
+                                            <td>
+                                            <button type="button" class="btn btn-danger removerLinha">Remover</button>
+                                            </td>
+                                        </tr>`;
+                        $('#tabelaProdutos tbody').append(novaLinha);
+                    });
+
                     // Remover linha de produto
                     $('#tabelaProdutos').on('click', '.removerLinha', function () {
                         $(this).closest('tr').remove();
@@ -252,6 +276,14 @@ include './include/head.php'; // Inclui o arquivo head.php
 
                     // Abrir modal de edição
                     $(".editar-btn").click(function () {
+                        $("#edit-id").val($(this).data("id"));
+                        $("#edit-nome").val($(this).data("nome"));
+                        $("#edit-rendimento").val($(this).data("rendimento"));
+                        $("#editarModal").modal("show");
+                    });
+
+                    // Abrir modal de edição
+                    $(".editar-btn").click(function () {
                         let receitaId = $(this).data("id");
                         $("#edit-id").val(receitaId);
 
@@ -292,30 +324,6 @@ include './include/head.php'; // Inclui o arquivo head.php
                             });
                         }
                     });
-                    // Adicionar nova linha na tabela de produtos
-                    $('#adicionarProduto').click(function () {
-                        let novaLinha = `<tr>
-                                            <td>
-                                            <select name="produtos[]" class="form-select" required>
-                                                <option value="">Selecione um produto</option>
-                                                <?php foreach ($produtos as $produto): ?>
-                                                                                                <option value="<?= $produto['id'] ?>" data-preco="<?= $produto['preco'] ?>" data-peso="<?= $produto['peso'] ?>">
-                                                                                                    <?= $produto['nome'] ?>
-                                                                                                </option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                            </td>
-                                            <td>
-                                            <input type="number" step="0.01" name="quantidades[]" class="form-control" placeholder="Quantidade utilizada" required>
-                                            </td>
-                                            <td>
-                                            <button type="button" class="btn btn-danger removerLinha">Remover</button>
-                                            </td>
-                                        </tr>`;
-                        $('#tabelaProdutos tbody').append(novaLinha);
-                    });
-
-
                 });
             </script>
 </body>
