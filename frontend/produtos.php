@@ -8,6 +8,7 @@ include '../backend/db/start_db_conn.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,21 +18,26 @@ include '../backend/db/start_db_conn.php';
         body {
             background-color: #fce4ec;
         }
+
         .container {
             margin-top: 20px;
         }
+
         .btn-custom {
             background-color: #d7a9a9;
             color: white;
         }
+
         .btn-custom:hover {
             background-color: #b78b8b;
         }
+
         .card {
             background: #fff3e0;
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
@@ -70,10 +76,12 @@ include '../backend/db/start_db_conn.php';
             </thead>
             <?php
             include '../backend/produtos/busca_produtos.php';
-            $produtos = buscarProdutos();
             ?>
             <tbody>
-                <?php foreach ($produtos as $produto) : ?>
+                <?php
+                $produtos = buscarProdutos();
+                print_r($produtos);                
+                foreach ($produtos as $produto): ?>
                     <tr>
                         <td><?= $produto['id']; ?></td>
                         <td><?= $produto['nome']; ?></td>
@@ -83,9 +91,10 @@ include '../backend/db/start_db_conn.php';
                 <?php endforeach; ?>
             </tbody>
         </table>
-        
+
         <a href="dashboard.php" class="btn btn-secondary">Voltar para o Dashboard</a>
     </div>
 
 </body>
+
 </html>
