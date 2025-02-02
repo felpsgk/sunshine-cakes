@@ -89,8 +89,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
              *    - valor_venda: custo_total dividido pelo rendimento (custo por unidade)
              *    - lucro: custo_receita acrescido da margem de lucro (em %)
              */
-            $total_fees_percent = $gastos_incalculaveis + $utens_perdas + $mao_obra + $taxa_ifood;
-            $custo_total = $custo_receita + ($custo_receita * ($total_fees_percent / 100));
+            $custo_incalculaveis = $custo_receita * ($gastos_incalculaveis/100);
+            $custo_utens_perdas = $custo_receita * ($utens_perdas/100);
+            $custo_mao_obra = $custo_receita * ($mao_obra/100);
+            if (isset($_POST['taxa_ifood']) && !empty($_POST['taxa_ifood'])) {
+                $custo_ifood = $custo_receita * ($taxa_ifood/100);
+            }
+
+
+            $custo_total = $custo_incalculaveis + $custo_utens_perdas + $custo_mao_obra + $custo_ifood;
             // Evita divisão por zero
             if ($rendimento <= 0) {
                 throw new Exception("O rendimento deve ser maior que zero.");
