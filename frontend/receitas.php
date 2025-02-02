@@ -131,9 +131,9 @@ include './include/head.php'; // Inclui o arquivo head.php
                                 <td>R$ <?= number_format($receita['valor_venda'], 2, ',', '.'); ?></td>
                                 <td><?= $receita['rendimento']; ?></td>
                                 <td>
-                                    <button class="btn btn-warning btn-sm editar-btn"
+                                    <button id="edit" class="btn btn-warning btn-sm editar-btn"
                                         data-id="<?= $receita['id']; ?>">Editar</button>
-                                    <button class="btn btn-danger btn-sm excluir-btn"
+                                    <button id="exc" class="btn btn-danger btn-sm excluir-btn"
                                         data-id="<?= $receita['id']; ?>">Excluir</button>
                                 </td>
                             </tr>
@@ -275,15 +275,7 @@ include './include/head.php'; // Inclui o arquivo head.php
                     });
 
                     // Abrir modal de edição
-                    $(".editar-btn").click(function () {
-                        $("#edit-id").val($(this).data("id"));
-                        $("#edit-nome").val($(this).data("nome"));
-                        $("#edit-rendimento").val($(this).data("rendimento"));
-                        $("#editarModal").modal("show");
-                    });
-
-                    // Abrir modal de edição
-                    $(".editar-btn").click(function () {
+                    $("#edit").click(function () {
                         let receitaId = $(this).data("id");
                         $("#edit-id").val(receitaId);
 
@@ -316,7 +308,7 @@ include './include/head.php'; // Inclui o arquivo head.php
 
 
                     // Excluir receita
-                    $(".excluir-btn").click(function () {
+                    $("#exc").click(function () {
                         if (confirm("Tem certeza que deseja excluir esta receita?")) {
                             let receitaId = $(this).data("id");
                             $.post("../backend/receitas/excluir_receita.php", { id: receitaId }, function (response) {
