@@ -115,6 +115,7 @@ include '../backend/produtos/busca_produtos.php';
                     alerta.classList.add(data.success ? "alert-success" : "alert-danger"); // Define sucesso ou erro
                     alerta.innerHTML = data.message; // Exibe a mensagem
                     if (data.success) {
+                        alerta.innerHTML = "ATUALIZANDO TABELA"; // Exibe a mensagem
                         // Atualiza a tabela com o novo produto sem recarregar a página
                         let tabelaBody = document.querySelector("#produtosTable tbody");
                         let novaLinha = document.createElement("tr");
