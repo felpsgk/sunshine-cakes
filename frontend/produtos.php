@@ -8,6 +8,7 @@ include '../backend/db/start_db_conn.php';
 include '../backend/produtos/busca_produtos.php';
 include './include/head.php'; // Inclui o arquivo head.php 
 ?>
+
 <body>
     <!-- Navbar -->
     <?php include './include/navbar.php'; // Inclui a navbar.php ?>
@@ -76,7 +77,9 @@ include './include/head.php'; // Inclui o arquivo head.php
                     alerta.classList.remove("d-none", "alert-success", "alert-danger"); // Remove classes anteriores
                     alerta.classList.add(data.success ? "alert-success" : "alert-danger"); // Define sucesso ou erro
                     alerta.innerHTML = data.message; // Exibe a mensagem
-
+                    if (data.success) {
+                        header('Location: produtos.php');
+                    }
                 })
                 .catch(error => console.error("Erro:", error));
         });
