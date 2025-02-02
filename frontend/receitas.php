@@ -232,9 +232,9 @@ include './include/head.php'; // Inclui o arquivo head.php
                                             <select name="produtos[]" class="form-select" required>
                                                 <option value="">Selecione um produto</option>
                                                 <?php foreach ($produtos as $produto): ?>
-                                                                                                                <option value="<?= $produto['id'] ?>" data-preco="<?= $produto['preco'] ?>" data-peso="<?= $produto['peso'] ?>">
-                                                                                                                    <?= $produto['nome'] ?>
-                                                                                                                </option>
+                                                        <option value="<?= $produto['id'] ?>" data-preco="<?= $produto['preco'] ?>" data-peso="<?= $produto['peso'] ?>">
+                                                            <?= $produto['nome'] ?>
+                                                        </option>
                                                 <?php endforeach; ?>
                                             </select>
                                             </td>
@@ -247,9 +247,36 @@ include './include/head.php'; // Inclui o arquivo head.php
                                         </tr>`;
                         $('#tabelaProdutos tbody').append(novaLinha);
                     });
+                    // Adicionar nova linha na tabela de  modal
+                    $('#addProdutoEdit').click(function () {
+                        let novaLinha = `<tr>
+                                            <td>
+                                            <select name="produtos[]" class="form-select" required>
+                                                <option value="">Selecione um produto</option>
+                                                <?php foreach ($produtos as $produto): ?>
+                                                        <option value="<?= $produto['id'] ?>" data-preco="<?= $produto['preco'] ?>" data-peso="<?= $produto['peso'] ?>">
+                                                            <?= $produto['nome'] ?>
+                                                        </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            </td>
+                                            <td>
+                                            <input type="number" step="0.01" name="quantidades[]" class="form-control" placeholder="Quantidade utilizada" required>
+                                            </td>
+                                            <td>
+                                            <button type="button" class="btn btn-danger removerLinhaEdit">Remover</button>
+                                            </td>
+                                        </tr>`;
+                        $('#edit-tabelaProdutos tbody').append(novaLinha);
+                    });
 
                     // Remover linha de produto
                     $('#tabelaProdutos').on('click', '.removerLinha', function () {
+                        $(this).closest('tr').remove();
+                    });
+
+                    // Remover linha de produto
+                    $('#edit-tabelaProdutos').on('click', '.removerLinhaEdit', function () {
                         $(this).closest('tr').remove();
                     });
 
