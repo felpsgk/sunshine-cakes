@@ -12,6 +12,6 @@ function buscarProdutos()
         exit();
     }
 
-    echo json_encode($produtos);
+    return json_encode($produtos);
 }
 ?>
