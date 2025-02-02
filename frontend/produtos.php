@@ -14,7 +14,13 @@ include '../backend/produtos/busca_produtos.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Produtos</title>
+
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
     <style>
         body {
             background-color: #fce4ec;
@@ -57,35 +63,33 @@ include '../backend/produtos/busca_produtos.php';
                     <input type="number" step="0.01" class="form-control" name="preco" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Quantidade</label>
-                    <input type="number" class="form-control" name="quantidade" required>
+                    <label class="form-label">peso</label>
+                    <input type="number" class="form-control" name="peso" required>
                 </div>
                 <button type="submit" class="btn btn-custom">Cadastrar</button>
             </form>
         </div>
 
-        <!-- Lista de produtos cadastrados -->
+        <!-- Lista de produtos cadastrados com DataTable -->
         <h4>Lista de Produtos</h4>
-        <table class="table table-bordered">
+        <table id="produtosTable" class="table table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
                     <th>Preço (R$)</th>
-                    <th>Quantidade</th>
+                    <th>peso</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $produtos = buscarProdutos();
-                var_dump($produtos); // Verifica se a consulta está trazendo dados
-                
+                print_r($produtos);
                 foreach ($produtos as $produto): ?>
                     <tr>
                         <td><?= $produto['id']; ?></td>
                         <td><?= $produto['nome']; ?></td>
                         <td>R$ <?= number_format($produto['preco'], 2, ',', '.'); ?></td>
-                        <td><?= $produto['quantidade']; ?></td>
+                        <td><?= $produto['peso']; ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -93,6 +97,33 @@ include '../backend/produtos/busca_produtos.php';
 
         <a href="dashboard.php" class="btn btn-secondary">Voltar para o Dashboard</a>
     </div>
+
+    <!-- jQuery e DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- Inicialização do DataTable -->
+    <script>
+        $(document).ready(function () {
+            $('#produtosTable').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ registros por página",
+                    "zeroRecords": "Nenhum produto encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum produto disponível",
+                    "infoFiltered": "(filtrado de _MAX_ registros totais)",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+        });
+    </script>
 
 </body>
 
