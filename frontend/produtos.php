@@ -117,6 +117,17 @@ include '../backend/produtos/busca_produtos.php';
                     alerta.classList.remove("d-none", "alert-success", "alert-danger"); // Remove classes anteriores
                     alerta.classList.add(data.success ? "alert-success" : "alert-danger"); // Define sucesso ou erro
                     alerta.innerHTML = data.message; // Exibe a mensagem
+                    if (data.success) {
+                        let tabelaBody = document.querySelector("#produtosTable tbody");
+                        let novaLinha = document.createElement("tr");
+                        novaLinha.innerHTML = `
+                            <td>${data.produto.id}</td>
+                            <td>${data.produto.nome}</td>
+                            <td>R$ ${parseFloat(data.produto.preco).toFixed(2).replace('.', ',')}</td>
+                            <td>${data.produto.peso}</td>
+                        `;
+                        tabelaBody.appendChild(novaLinha); // Limpa o formulário
+                    }
                 })
                 .catch(error => console.error("Erro:", error));
         });

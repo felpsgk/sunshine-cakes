@@ -19,4 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nome_produto'], $_POST
 } else {
     echo json_encode(["success" => false, "message" => "Dados inválidos!"]);
 }
+$stmt->close();
+$pdo = null;
 ?>
