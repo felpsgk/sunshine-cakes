@@ -57,8 +57,8 @@ include '../backend/produtos/busca_produtos.php';
                     <input type="number" step="0.01" class="form-control" name="preco" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">peso</label>
-                    <input type="number" class="form-control" name="peso" required>
+                    <label class="form-label">Quantidade</label>
+                    <input type="number" class="form-control" name="quantidade" required>
                 </div>
                 <button type="submit" class="btn btn-custom">Cadastrar</button>
             </form>
@@ -72,7 +72,7 @@ include '../backend/produtos/busca_produtos.php';
                     <th>ID</th>
                     <th>Nome</th>
                     <th>Preço (R$)</th>
-                    <th>peso</th>
+                    <th>Quantidade</th>
                 </tr>
             </thead>
             <tbody>
@@ -82,7 +82,7 @@ include '../backend/produtos/busca_produtos.php';
                         <td><?= $produto['id']; ?></td>
                         <td><?= $produto['nome']; ?></td>
                         <td>R$ <?= number_format($produto['preco'], 2, ',', '.'); ?></td>
-                        <td><?= $produto['peso']; ?></td>
+                        <td><?= $produto['quantidade']; ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
