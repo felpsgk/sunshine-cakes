@@ -276,6 +276,7 @@ include './include/head.php'; // Inclui o arquivo head.php
 
                     // Abrir modal de edição
                     $("#edit").click(function () {
+                        console.log("Botão de editar clicado!");
                         let receitaId = $(this).data("id");
                         $("#edit-id").val(receitaId);
 
@@ -300,6 +301,7 @@ include './include/head.php'; // Inclui o arquivo head.php
 
 
                     $("#editarReceitaForm").submit(function (e) {
+                        console.log("formulario de editar clicado!");
                         e.preventDefault();
                         $.post("../backend/receitas/editar_receita.php", $(this).serialize(), function (response) {
                             location.reload();
@@ -309,6 +311,7 @@ include './include/head.php'; // Inclui o arquivo head.php
 
                     // Excluir receita
                     $("#exc").click(function () {
+                        console.log("Botão de excluir clicado!");
                         if (confirm("Tem certeza que deseja excluir esta receita?")) {
                             let receitaId = $(this).data("id");
                             $.post("../backend/receitas/excluir_receita.php", { id: receitaId }, function (response) {
