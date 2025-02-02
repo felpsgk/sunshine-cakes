@@ -1,5 +1,6 @@
 <?php
 include '../db/start_db_conn.php';
+buscarProdutos();
 function buscarProdutos()
 {
     global $pdo;
