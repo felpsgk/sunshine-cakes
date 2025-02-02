@@ -129,6 +129,7 @@ include '../backend/produtos/busca_produtos.php';
         $(document).ready(function () {
             $('#produtosTable').DataTable({
                 "pageLength": 20,
+                "lengthMenu": [20, 30, 50, 100],
                 "language": {
                     "lengthMenu": "Mostrar _MENU_ registros por página",
                     "zeroRecords": "Nenhum produto encontrado",
