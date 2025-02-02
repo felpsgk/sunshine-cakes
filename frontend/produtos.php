@@ -52,73 +52,11 @@ include './include/head.php'; // Inclui o arquivo head.php
                 </tr>
             </thead>
             <tbody>
-                <?php
-                $produtos = buscarProdutos();
-                print_r($produtos);
-                foreach ($produtos as $produto): ?>
-                    <tr>
-                        <td><?= $produto['id']; ?></td>
-                        <td><?= $produto['nome']; ?></td>
-                        <td>R$ <?= number_format($produto['preco'], 2, ',', '.'); ?></td>
-                        <td><?= $produto['peso']; ?></td>
-                    </tr>
-                <?php endforeach; ?>
+                
             </tbody>
         </table>
         <a href="dashboard.php" class="btn btn-secondary">Voltar para o Dashboard</a>
     </div>
-    <script>
-        document.getElementById("produtoForm").addEventListener("submit", function (event) {
-            event.preventDefault(); // Impede o recarregamento da página
-            let formData = new FormData(this); // Coleta os dados do formulário
-            fetch("../backend/produtos/insere_produtos.php", {
-                method: "POST",
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    let alerta = document.getElementById("alerta");
-                    alerta.classList.remove("d-none", "alert-success", "alert-danger"); // Remove classes anteriores
-                    alerta.classList.add(data.success ? "alert-success" : "alert-danger"); // Define sucesso ou erro
-                    document.getElementById("alertaMensagem").innerHTML = data.message; // Exibe a mensagem
-
-                    // Faz o alerta desaparecer após 5 segundos
-                    setTimeout(() => {
-                        alerta.classList.add("d-none");
-                    }, 5000);
-
-                    // Se o cadastro for bem-sucedido, atualiza a tabela
-                    if (data.success) {
-                        // Limpa o formulário
-                        document.getElementById("produ  toForm").reset();
-                        // Atualiza a tabela de produtos
-                        atualizarTabelaProdutos();
-                    }
-                })
-                .catch(error => console.error("Erro:", error));
-            // Função para atualizar a tabela com produtos
-            function atualizarTabelaProdutos() {
-                fetch("../backend/produtos/busca_produtos.php")
-                    .then(response => response.json())
-                    .then(data => {
-                        tabela.clear(); // Limpa os dados existentes na tabela
-
-                        data.forEach(produto => {
-                            tabela.row.add([
-                                produto.id,
-                                produto.nome,
-                                `R$ ${parseFloat(produto.preco).toFixed(2).replace('.', ',')}`,
-                                produto.peso
-                            ]);
-                        });
-
-                        tabela.draw(); // Atualiza a tabela com os novos dados
-                    })
-                    .catch(error => console.error("Erro ao atualizar a tabela:", error));
-            }
-        });
-    </script>
-
     <!-- jQuery e DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -126,31 +64,7 @@ include './include/head.php'; // Inclui o arquivo head.php
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Função para preencher a tabela com produtos
-        function preencherTabelaProdutos() {
-            fetch("../backend/produtos/busca_produtos.php")
-                .then(response => response.json()) // Espera um JSON como resposta
-                .then(data => {
-                    let tabela = $('#produtosTable').DataTable();
-                    tabela.clear(); // Limpa os dados existentes na tabela
-
-                    // Itera sobre os dados e adiciona à tabela
-                    data.forEach(produto => {
-                        tabela.row.add([
-                            produto.id,
-                            produto.nome,
-                            `R$ ${parseFloat(produto.preco).toFixed(2).replace('.', ',')}`,
-                            produto.peso
-                        ]);
-                    });
-
-                    tabela.draw(); // Atualiza a tabela com os novos dados
-                })
-                .catch(error => console.error("Erro ao carregar os produtos:", error));
-        }
-
-        // Inicializa a tabela ao carregar a página
-        $(document).ready(function () {
+         $(document).ready(function () {
             // Inicializa o DataTable
             $('#produtosTable').DataTable({
                 "pageLength": 20,
@@ -172,7 +86,37 @@ include './include/head.php'; // Inclui o arquivo head.php
             });
 
             // Preenche a tabela com os produtos ao carregar a página
-            preencherTabelaProdutos();
+            atualizarTabelaProdutos();
+
+            // Evento de submissão do formulário
+            document.getElementById("produtoForm").addEventListener("submit", function (event) {
+                event.preventDefault(); // Impede o recarregamento da página
+                let formData = new FormData(this); // Coleta os dados do formulário
+
+                fetch("../backend/produtos/insere_produtos.php", {
+                    method: "POST",
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        let alerta = document.getElementById("alerta");
+                        alerta.classList.remove("d-none", "alert-success", "alert-danger");
+                        alerta.classList.add(data.success ? "alert-success" : "alert-danger");
+                        document.getElementById("alertaMensagem").innerHTML = data.message;
+
+                        // Faz o alerta desaparecer após 5 segundos
+                        setTimeout(() => {
+                            alerta.classList.add("d-none");
+                        }, 5000);
+
+                        // Se o cadastro for bem-sucedido, limpa o formulário e atualiza a tabela
+                        if (data.success) {
+                            document.getElementById("produtoForm").reset();
+                            atualizarTabelaProdutos();
+                        }
+                    })
+                    .catch(error => console.error("Erro:", error));
+            });
         });
     </script>
 
