@@ -96,27 +96,6 @@ include './include/head.php'; // Inclui o arquivo head.php
                 })
                 .catch(error => console.error("Erro:", error));
         });
-
-        function atualizarTabelaProdutos() {
-            fetch("../backend/produtos/busca_produtos.php")
-                .then(response => response.json())
-                .then(data => {
-                    let tabela = $('#produtosTable').DataTable();
-                    tabela.clear(); // Limpa os dados existentes na tabela
-
-                    data.forEach(produto => {
-                        tabela.row.add([
-                            produto.id,
-                            produto.nome,
-                            `R$ ${parseFloat(produto.preco).toFixed(2).replace('.', ',')}`,
-                            produto.peso
-                        ]);
-                    });
-
-                    tabela.draw(); // Atualiza a tabela com os novos dados
-                })
-                .catch(error => console.error("Erro ao atualizar a tabela:", error));
-        }
     </script>
 
     <!-- jQuery e DataTables JS -->
@@ -129,7 +108,8 @@ include './include/head.php'; // Inclui o arquivo head.php
     <!-- Inicialização do DataTable -->
     <script>
         $(document).ready(function () {
-            $('#produtosTable').DataTable({
+            // Inicializa o DataTable
+            var tabela = $('#produtosTable').DataTable({
                 "pageLength": 20,
                 "lengthMenu": [20, 30, 50, 100],
                 "language": {
@@ -147,6 +127,30 @@ include './include/head.php'; // Inclui o arquivo head.php
                     }
                 }
             });
+
+            // Função para atualizar a tabela com produtos
+            function atualizarTabelaProdutos() {
+                fetch("../backend/produtos/busca_produtos.php")
+                    .then(response => response.json())
+                    .then(data => {
+                        tabela.clear(); // Limpa os dados existentes na tabela
+
+                        data.forEach(produto => {
+                            tabela.row.add([
+                                produto.id,
+                                produto.nome,
+                                `R$ ${parseFloat(produto.preco).toFixed(2).replace('.', ',')}`,
+                                produto.peso
+                            ]);
+                        });
+
+                        tabela.draw(); // Atualiza a tabela com os novos dados
+                    })
+                    .catch(error => console.error("Erro ao atualizar a tabela:", error));
+            }
+
+            // Atualiza a tabela quando a página for carregada
+            atualizarTabelaProdutos();
         });
     </script>
 
