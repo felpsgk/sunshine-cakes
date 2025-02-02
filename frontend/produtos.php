@@ -75,13 +75,10 @@ include '../backend/db/start_db_conn.php';
                     <th>Quantidade</th>
                 </tr>
             </thead>
-            <?php
-            echo "TESTE";
-            ?>
             <tbody>
                 <?php
-                echo "TESTE1";
                 $produtos = buscarProdutos();
+                echo "TESTE1";
                 print_r($produtos);
                 foreach ($produtos as $produto): ?>
                     <tr>
