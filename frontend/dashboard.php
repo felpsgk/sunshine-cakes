@@ -4,8 +4,7 @@ if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
     exit();
 }
-?>
-<?php include 'head.php'; // Inclui o arquivo head.php ?>
+include './include/head.php'; // Inclui o arquivo head.php ?>
 
 <body>
     <!-- Navbar -->

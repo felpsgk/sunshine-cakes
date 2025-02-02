@@ -6,7 +6,7 @@ if (!isset($_SESSION['usuario_id'])) {
 }
 include '../backend/db/start_db_conn.php';
 include '../backend/produtos/busca_produtos.php';
-include 'head.php'; // Inclui o arquivo head.php 
+include './include/head.php'; // Inclui o arquivo head.php 
 ?>
 <body>
     <!-- Navbar -->
