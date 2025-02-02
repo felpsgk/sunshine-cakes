@@ -2,17 +2,15 @@
 include '../db/start_db_conn.php';
 function buscarProdutos()
 {
-    global $conn;
+    global $pdo;
 
-    $sql = "SELECT * FROM produtos";
-    $result = $conn->query($sql);
-
-    $produtos = array();
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $produtos[] = $row;
-        }
+    $stmt = $pdo->prepare("SELECT * FROM produtos ORDER BY id DESC");
+    $stmt->execute();
+    $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (!$produtos) {
+        echo "Erro na consulta ou tabela vazia.";
     }
+
     return $produtos;
 }
 
