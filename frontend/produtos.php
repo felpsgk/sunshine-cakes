@@ -51,10 +51,40 @@ include './include/head.php'; // Inclui o arquivo head.php
                 </tr>
             </thead>
             <tbody>
-                
+
             </tbody>
         </table>
         <a href="dashboard.php" class="btn btn-secondary">Voltar para o Dashboard</a>
+        <!-- Modal para Edição -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form id="editForm" class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Editar Produto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="id" id="editId">
+                        <div class="mb-3">
+                            <label for="editNome" class="form-label">Nome do Produto</label>
+                            <input type="text" class="form-control" name="nome_produto" id="editNome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPreco" class="form-label">Preço (R$)</label>
+                            <input type="number" step="0.01" class="form-control" name="preco" id="editPreco" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPeso" class="form-label">Peso (gr) / Quantidade</label>
+                            <input type="number" class="form-control" name="peso" id="editPeso" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
     <!-- jQuery e DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -87,6 +117,30 @@ include './include/head.php'; // Inclui o arquivo head.php
                 })
                 .catch(error => console.error("Erro ao atualizar a tabela:", error));
         }
+        // Função para abrir o modal de edição e preencher os campos
+        function openEditModal(produto) {
+            document.getElementById("editId").value = produto.id;
+            document.getElementById("editNome").value = produto.nome;
+            document.getElementById("editPreco").value = produto.preco;
+            document.getElementById("editPeso").value = produto.peso;
+
+            // Abre o modal (Bootstrap 5)
+            var editModal = new bootstrap.Modal(document.getElementById('editModal'));
+            editModal.show();
+        }
+
+        // Função para excluir um produto
+        function excluirProduto(id) {
+            if (confirm("Tem certeza que deseja excluir este produto?")) {
+                fetch("../backend/produtos/deleta_produto.php?id=" + id)
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        atualizarTabelaProdutos();
+                    })
+                    .catch(error => console.error("Erro ao excluir o produto:", error));
+            }
+        }
     </script>
 
     <!-- Script para inicialização do DataTable e eventos -->
@@ -109,7 +163,10 @@ include './include/head.php'; // Inclui o arquivo head.php
                         "next": "Próximo",
                         "previous": "Anterior"
                     }
-                }
+                },// Define que a última coluna não é ordenável (os botões de ação)
+                "columnDefs": [
+                    { "orderable": false, "targets": -1 }
+                ]
             });
 
             // Preenche a tabela com os produtos ao carregar a página
@@ -143,6 +200,26 @@ include './include/head.php'; // Inclui o arquivo head.php
                         }
                     })
                     .catch(error => console.error("Erro:", error));
+            });
+
+            // Evento de submissão do formulário de edição (modal)
+            document.getElementById("editForm").addEventListener("submit", function (event) {
+                event.preventDefault();
+                let formData = new FormData(this);
+                fetch("../backend/produtos/atualiza_produto.php", {
+                    method: "POST",
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        // Fecha o modal manualmente
+                        var editModalEl = document.getElementById('editModal');
+                        var modalInstance = bootstrap.Modal.getInstance(editModalEl);
+                        modalInstance.hide();
+                        atualizarTabelaProdutos();
+                    })
+                    .catch(error => console.error("Erro ao atualizar o produto:", error));
             });
         });
     </script>
