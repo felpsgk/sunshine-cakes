@@ -65,8 +65,6 @@ function autenticarUsuario($pdo, $email, $senha) {
     if ($usuario) {
         $_SESSION['usuario_id'] = $usuario['id'];
         $_SESSION['usuario_nome'] = $usuario['nome'];
-        print_r($usuario['id']);
-        print_r($usuario['nome']);
         return true;
     }
     return false;
