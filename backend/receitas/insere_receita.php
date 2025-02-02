@@ -7,15 +7,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Verifica se os dados obrigatórios foram enviados
     if (
         isset(
-            $_POST['nome_receita'], 
-            $_POST['rendimento'], 
-            $_POST['produtos'], 
-            $_POST['quantidades'], 
-            $_POST['gastos_incalculaveis'], 
-            $_POST['utens_perdas'], 
-            $_POST['mao_obra'], 
-            $_POST['margem_lucro']
-        )
+        $_POST['nome_receita'],
+        $_POST['rendimento'],
+        $_POST['produtos'],
+        $_POST['quantidades'],
+        $_POST['gastos_incalculaveis'],
+        $_POST['utens_perdas'],
+        $_POST['mao_obra'],
+        $_POST['margem_lucro']
+    )
     ) {
         // Dados da receita
         $nome_receita = trim($_POST['nome_receita']);
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             for ($i = 0; $i < $numProdutos; $i++) {
                 $quantidade_utilizada = floatval($quantidades[$i]);
                 $produto_id = $produtos[$i];
-                
+
                 // Busca os dados do produto para obter o preço e a quantidade real (peso)
                 $stmt_prod_info->execute([$produto_id]);
                 $produto = $stmt_prod_info->fetch(PDO::FETCH_ASSOC);
@@ -89,15 +89,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
              *    - valor_venda: custo_total dividido pelo rendimento (custo por unidade)
              *    - lucro: custo_receita acrescido da margem de lucro (em %)
              */
-            $custo_incalculaveis = $custo_receita * ($gastos_incalculaveis/100);
-            $custo_utens_perdas = $custo_receita * ($utens_perdas/100);
-            $custo_mao_obra = $custo_receita * ($mao_obra/100);
+            $custo_incalculaveis = $custo_receita * ($gastos_incalculaveis / 100);
+            $custo_utens_perdas = $custo_receita * ($utens_perdas / 100);
+            $custo_mao_obra = $custo_receita * ($mao_obra / 100);
             if (isset($_POST['taxa_ifood']) && !empty($_POST['taxa_ifood'])) {
-                $custo_ifood = $custo_receita * ($taxa_ifood/100);
+                $custo_ifood = $custo_receita * ($taxa_ifood / 100);
+                $custo_total = $custo_receita + $custo_incalculaveis + $custo_utens_perdas + $custo_mao_obra + $custo_ifood;
+            } else {
+                $custo_total = $custo_receita + $custo_incalculaveis + $custo_utens_perdas + $custo_mao_obra;
             }
 
 
-            $custo_total = $custo_incalculaveis + $custo_utens_perdas + $custo_mao_obra + $custo_ifood;
             // Evita divisão por zero
             if ($rendimento <= 0) {
                 throw new Exception("O rendimento deve ser maior que zero.");
@@ -122,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $pdo->commit();
 
             echo json_encode([
-                "success" => true, 
+                "success" => true,
                 "message" => "Receita criada com sucesso!",
                 "dados" => [
                     "receita_id" => $receita_id,
