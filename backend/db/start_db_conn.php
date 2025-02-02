@@ -61,12 +61,12 @@ function cadastrarUsuario($pdo, $nome, $email, $senha) {
 function autenticarUsuario($pdo, $email, $senha) {
     $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ? AND senha = SHA1(?)");
     $stmt->execute([$email, $senha]);
-    print_r($stmt);
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-    print_r($usuario);
     if ($usuario) {
         $_SESSION['usuario_id'] = $usuario['id'];
         $_SESSION['usuario_nome'] = $usuario['nome'];
+        print_r($usuario['id']);
+        print_r($usuario['nome']);
         return true;
     }
     return false;
