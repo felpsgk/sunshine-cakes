@@ -92,8 +92,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $custo_incalculaveis = $custo_receita * ($gastos_incalculaveis / 100);
             $custo_utens_perdas = $custo_receita * ($utens_perdas / 100);
             $custo_mao_obra = $custo_receita * ($mao_obra / 100);
+            echo "valor ".$custo_receita;
+            echo "valor1 ".$custo_incalculaveis;
+            echo "valor2 ".$custo_utens_perdas;
+            echo "valor3 ".$custo_mao_obra;
             if (isset($_POST['taxa_ifood']) && !empty($_POST['taxa_ifood'])) {
-                $custo_ifood = $custo_receita * ($taxa_ifood / 100);
+                $custo_ifood = $custo_receita * ($taxa_ifood / 100);                
                 $custo_total = $custo_receita + $custo_incalculaveis + $custo_utens_perdas + $custo_mao_obra + $custo_ifood;
             } else {
                 $custo_total = $custo_receita + $custo_incalculaveis + $custo_utens_perdas + $custo_mao_obra;
