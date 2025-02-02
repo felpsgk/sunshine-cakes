@@ -53,17 +53,17 @@ include '../backend/produtos/busca_produtos.php';
         <!-- Formulário para cadastrar um novo produto -->
         <div class="card p-3 mb-4">
             <h4>Cadastrar Novo Produto</h4>
-            <form method="POST" action="../backend/produtos/produtos.php">
+            <form method="POST" action="../backend/produtos/insere_produtos.php">
                 <div class="mb-3">
                     <label class="form-label">Nome do Produto</label>
                     <input type="text" class="form-control" name="nome_produto" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Preço (R$)</label>
-                    <input type="number" step="0.01" class="form-control" name="preco" required>
+                    <input type="number" step="0.10" class="form-control" name="preco" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">peso</label>
+                    <label class="form-label">peso(gr)/quantidade</label>
                     <input type="number" class="form-control" name="peso" required>
                 </div>
                 <button type="submit" class="btn btn-custom">Cadastrar</button>
@@ -78,7 +78,7 @@ include '../backend/produtos/busca_produtos.php';
                     <th>ID</th>
                     <th>Nome</th>
                     <th>Preço (R$)</th>
-                    <th>peso</th>
+                    <th>peso(gr)/quantidade</th>
                 </tr>
             </thead>
             <tbody>
